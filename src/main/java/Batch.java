@@ -1,12 +1,12 @@
 import java.util.Objects;
 import java.util.Stack;
 
-public class Batch {
+public class Batch implements Cloneable{
     public static int BATCH_N;
     public static int COLOR_M;
 
     private int sortCount = 0;
-    private final Stack<Card> cards = new Stack<>();
+    private Stack<Card> cards = new Stack<>();
 
     public boolean isGoalBatch() {
         return cards.size() == BATCH_N && sortCount == BATCH_N;
@@ -43,6 +43,19 @@ public class Batch {
 
     public int getSortCount() {
         return sortCount;
+    }
+
+    public int getTopNumber() {
+        return cards.peek().getNumber();
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        Batch cloned = new Batch();
+        cloned.cards = (Stack<Card>) cards.clone();
+        cloned.sortCount = sortCount;
+
+        return cloned;
     }
 
     @Override

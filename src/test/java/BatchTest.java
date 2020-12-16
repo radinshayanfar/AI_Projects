@@ -163,4 +163,25 @@ public class BatchTest {
         Assert.assertTrue(batch.isEmpty());
     }
 
+    @Test
+    public void cloneTest() throws CloneNotSupportedException {
+        Batch batch1 = new Batch(), batch2 = new Batch();
+        batch1.addTop(new Card('r', 3));
+        batch1.addTop(new Card('r', 2));
+        batch1.addTop(new Card('r', 1));
+        batch2.addTop(new Card('g', 3));
+
+        Batch batch3 = (Batch) batch1.clone(), batch4 = (Batch) batch2.clone();
+        batch2.addTop(batch1.removeTop());
+
+        Assert.assertNotEquals(batch1, batch3);
+        Assert.assertNotEquals(batch2, batch4);
+
+        System.out.println(batch1);
+        System.out.println(batch2);
+        System.out.println(batch3);
+        System.out.println(batch4);
+
+    }
+
 }
