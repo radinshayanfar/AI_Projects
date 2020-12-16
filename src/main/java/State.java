@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public class State {
+public class State  implements Comparable {
     public static int BATCHES_K;
 
     private Batch[] batches = new Batch[BATCHES_K];
@@ -136,5 +136,11 @@ public class State {
         }
 
         return out;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        State other = (State) o;
+        return this.f_n() - other.f_n();
     }
 }
