@@ -1,5 +1,5 @@
 public interface GameSolver {
     State solve();
-    int getCreatedNodes();
-    int getExpandedNodes();
+    long getCreatedNodes();
+    long getExpandedNodes();
 }
