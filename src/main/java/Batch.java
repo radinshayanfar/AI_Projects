@@ -3,9 +3,10 @@ import java.util.Stack;
 
 public class Batch {
     public static int BATCH_N;
+    public static int COLOR_M;
 
     private int sortCount = 0;
-    private Stack<Card> cards = new Stack<>();
+    private final Stack<Card> cards = new Stack<>();
 
     public boolean isGoalBatch() {
         return cards.size() == BATCH_N && sortCount == BATCH_N;
