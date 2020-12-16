@@ -38,6 +38,9 @@ public class BFSSolver implements GameSolver {
                     if (visited.contains(state)) {
                         continue;
                     }
+//                    if (frontier.contains(state)) {
+//                        continue;
+//                    }
                     frontier.offer(state);
                     createdNodes++;
                 }

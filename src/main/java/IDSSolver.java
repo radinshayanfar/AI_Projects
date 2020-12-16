@@ -1,10 +1,8 @@
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.Stack;
 
 public class IDSSolver implements GameSolver {
     private final State initialState;
-    private Queue<State> frontier = new LinkedList<>();
+    private Stack<State> frontier = new Stack<>();
 
     private long createdNodes, expandedNodes;
 
@@ -13,9 +11,9 @@ public class IDSSolver implements GameSolver {
     }
 
     private State DFS(int limit) {
-        frontier.offer(initialState);
+        frontier.push(initialState);
         while (!frontier.isEmpty()) {
-            State node = frontier.poll();
+            State node = frontier.pop();
             expandedNodes++;
 
             if (node.isGoalState()) {
@@ -23,7 +21,7 @@ public class IDSSolver implements GameSolver {
             }
 
             if (node.getCost() > limit) {
-                break;
+                continue;
             }
 
             try {
@@ -31,7 +29,10 @@ public class IDSSolver implements GameSolver {
                         node.nextStates()) {
                     if (state == null)
                         break;
-                    frontier.offer(state);
+//                    if (frontier.contains(state)) {
+//                        continue;
+//                    }
+                    frontier.push(state);
                     createdNodes++;
                 }
             } catch (CloneNotSupportedException e) {
