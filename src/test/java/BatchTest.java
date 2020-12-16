@@ -34,16 +34,16 @@ public class BatchTest {
         Batch batch = new Batch();
 
         batch.addTop(new Card('r', 2));
-        Assert.assertFalse(batch.isGoalBatch());
-        Assert.assertEquals(batch.getSortCount(), 0);
+        Assert.assertTrue(batch.isGoalBatch());
+        Assert.assertEquals(batch.getSortCount(), 1);
 
         batch.addTop(new Card('r', 1));
-        Assert.assertFalse(batch.isGoalBatch());
-        Assert.assertEquals(batch.getSortCount(), 0);
+        Assert.assertTrue(batch.isGoalBatch());
+        Assert.assertEquals(batch.getSortCount(), 2);
 
         batch.addTop(new Card('r', 3));
         Assert.assertFalse(batch.isGoalBatch());
-        Assert.assertEquals(batch.getSortCount(), 0);
+        Assert.assertEquals(batch.getSortCount(), 2);
 
     }
 
@@ -52,28 +52,28 @@ public class BatchTest {
         Batch batch = new Batch();
 
         batch.addTop(new Card('r', 3));
-        Assert.assertFalse(batch.isGoalBatch());
+        Assert.assertTrue(batch.isGoalBatch());
         Assert.assertEquals(batch.getSortCount(), 1);
 
         batch.addTop(new Card('r', 1));
-        Assert.assertFalse(batch.isGoalBatch());
-        Assert.assertEquals(batch.getSortCount(), 1);
+        Assert.assertTrue(batch.isGoalBatch());
+        Assert.assertEquals(batch.getSortCount(), 2);
 
         batch.addTop(new Card('r', 2));
         Assert.assertFalse(batch.isGoalBatch());
-        Assert.assertEquals(batch.getSortCount(), 1);
+        Assert.assertEquals(batch.getSortCount(), 2);
     }
 
     @Test
     public void addingIsSortedTest() {
         Batch batch = new Batch();
 
-        batch.addTop(new Card('r', 3));
-        Assert.assertFalse(batch.isGoalBatch());
+        batch.addTop(new Card('r', 4));
+        Assert.assertTrue(batch.isGoalBatch());
         Assert.assertEquals(batch.getSortCount(), 1);
 
         batch.addTop(new Card('r', 2));
-        Assert.assertFalse(batch.isGoalBatch());
+        Assert.assertTrue(batch.isGoalBatch());
         Assert.assertEquals(batch.getSortCount(), 2);
 
         batch.addTop(new Card('r', 1));
@@ -90,11 +90,11 @@ public class BatchTest {
         Batch batch = new Batch();
 
         batch.addTop(new Card('r', 3));
-        Assert.assertFalse(batch.isGoalBatch());
+        Assert.assertTrue(batch.isGoalBatch());
         Assert.assertEquals(batch.getSortCount(), 1);
 
         batch.addTop(new Card('r', 2));
-        Assert.assertFalse(batch.isGoalBatch());
+        Assert.assertTrue(batch.isGoalBatch());
         Assert.assertEquals(batch.getSortCount(), 2);
 
         batch.addTop(new Card('r', 1));
@@ -110,15 +110,15 @@ public class BatchTest {
         Assert.assertEquals(batch.getSortCount(), 3);
 
         batch.removeTop();
-        Assert.assertFalse(batch.isGoalBatch());
+        Assert.assertTrue(batch.isGoalBatch());
         Assert.assertEquals(batch.getSortCount(), 2);
 
         batch.removeTop();
-        Assert.assertFalse(batch.isGoalBatch());
+        Assert.assertTrue(batch.isGoalBatch());
         Assert.assertEquals(batch.getSortCount(), 1);
 
         batch.removeTop();
-        Assert.assertFalse(batch.isGoalBatch());
+        Assert.assertTrue(batch.isGoalBatch());
         Assert.assertEquals(batch.getSortCount(), 0);
 
         Assert.assertTrue(batch.isEmpty());
@@ -129,35 +129,35 @@ public class BatchTest {
         Batch batch = new Batch();
 
         batch.addTop(new Card('r', 2));
-        Assert.assertFalse(batch.isGoalBatch());
-        Assert.assertEquals(batch.getSortCount(), 0);
+        Assert.assertTrue(batch.isGoalBatch());
+        Assert.assertEquals(batch.getSortCount(), 1);
 
         batch.addTop(new Card('g', 2));
         Assert.assertFalse(batch.isGoalBatch());
-        Assert.assertEquals(batch.getSortCount(), 0);
+        Assert.assertEquals(batch.getSortCount(), 1);
 
         batch.addTop(new Card('r', 1));
         Assert.assertFalse(batch.isGoalBatch());
-        Assert.assertEquals(batch.getSortCount(), 0);
+        Assert.assertEquals(batch.getSortCount(), 1);
 
         batch.addTop(new Card('g', 1));
         Assert.assertFalse(batch.isGoalBatch());
-        Assert.assertEquals(batch.getSortCount(), 0);
+        Assert.assertEquals(batch.getSortCount(), 1);
 
         batch.removeTop();
         Assert.assertFalse(batch.isGoalBatch());
-        Assert.assertEquals(batch.getSortCount(), 0);
+        Assert.assertEquals(batch.getSortCount(), 1);
 
         batch.removeTop();
         Assert.assertFalse(batch.isGoalBatch());
-        Assert.assertEquals(batch.getSortCount(), 0);
+        Assert.assertEquals(batch.getSortCount(), 1);
 
         batch.removeTop();
-        Assert.assertFalse(batch.isGoalBatch());
-        Assert.assertEquals(batch.getSortCount(), 0);
+        Assert.assertTrue(batch.isGoalBatch());
+        Assert.assertEquals(batch.getSortCount(), 1);
 
         batch.removeTop();
-        Assert.assertFalse(batch.isGoalBatch());
+        Assert.assertTrue(batch.isGoalBatch());
         Assert.assertEquals(batch.getSortCount(), 0);
 
         Assert.assertTrue(batch.isEmpty());

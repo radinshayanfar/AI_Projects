@@ -19,24 +19,21 @@ public class StateTest {
 
         for (int i = 0; i < Batch.COLOR_M; i++) {
             Batch batch = new Batch();
-            for (int j = 3; j >=1 ; j--) {
+            for (int j = 3; j >= 1; j--) {
                 batch.addTop(new Card(colors[i], j));
-                if (j != 1) {
-                    Assert.assertFalse(batch.isGoalBatch());
-                }
+                Assert.assertTrue(batch.isGoalBatch());
                 Assert.assertEquals(batch.getSortCount(), 4 - j);
             }
-            Assert.assertTrue(batch.isGoalBatch());
             batches[i] = batch;
         }
         batches[3] = new Batch();
         State state = new State(batches);
         Assert.assertTrue(state.isGoalState());
-        Assert.assertEquals(state.heuristic(), 0);
+//        Assert.assertEquals(state.heuristic(), 0);
 
         batches[2].addTop(batches[1].removeTop());
         Assert.assertFalse(state.isGoalState());
-        Assert.assertEquals(state.heuristic(), 1);
+//        Assert.assertEquals(state.heuristic(), 1);
     }
 
     @Test
@@ -46,14 +43,11 @@ public class StateTest {
 
         for (int i = 0; i < Batch.COLOR_M; i++) {
             Batch batch = new Batch();
-            for (int j = 3; j >=1 ; j--) {
+            for (int j = 3; j >= 1; j--) {
                 batch.addTop(new Card(colors[i], j));
-                if (j != 1) {
-                    Assert.assertFalse(batch.isGoalBatch());
-                }
+                Assert.assertTrue(batch.isGoalBatch());
                 Assert.assertEquals(batch.getSortCount(), 4 - j);
             }
-            Assert.assertTrue(batch.isGoalBatch());
             batches[i] = batch;
         }
         batches[3] = new Batch();

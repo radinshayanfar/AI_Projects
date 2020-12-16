@@ -8,6 +8,8 @@ public class BFSSolver implements GameSolver {
     private Queue<State> frontier = new LinkedList<>();
     private HashSet<State> visited = new HashSet<>();
 
+    private int createdNodes, expandedNodes;
+
     public BFSSolver(State initialState) {
         this.initialState = initialState;
     }
@@ -17,21 +19,42 @@ public class BFSSolver implements GameSolver {
         frontier.offer(initialState);
         while (!frontier.isEmpty()) {
             State node = frontier.poll();
+            if (visited.contains(node)) {
+                continue;
+            }
+            expandedNodes++;
+
             if (node.isGoalState()) {
                 return node;
             }
+
             visited.add(node);
+
             try {
                 for (State state :
                         node.nextStates()) {
                     if (state == null)
                         break;
+                    if (visited.contains(state)) {
+                        continue;
+                    }
                     frontier.offer(state);
+                    createdNodes++;
                 }
             } catch (CloneNotSupportedException e) {
                 e.printStackTrace();
             }
         }
         return null;
+    }
+
+    @Override
+    public int getCreatedNodes() {
+        return createdNodes;
+    }
+
+    @Override
+    public int getExpandedNodes() {
+        return expandedNodes;
     }
 }

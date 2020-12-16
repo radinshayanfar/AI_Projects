@@ -9,7 +9,7 @@ public class Batch implements Cloneable{
     private Stack<Card> cards = new Stack<>();
 
     public boolean isGoalBatch() {
-        return cards.size() == BATCH_N && sortCount == BATCH_N;
+        return cards.size() == sortCount;
     }
 
     public void addTop(Card card) {
@@ -19,12 +19,12 @@ public class Batch implements Cloneable{
         if (prevSize != sortCount || prevSize >= BATCH_N) {
             return;
         }
-        if (prevSize == 0 && card.getNumber() == BATCH_N) {
+        if (prevSize == 0) {
             sortCount++;
             return;
         }
-        if (prevSize != 0 && cards.elementAt(prevSize - 1).getColor() == cards.peek().getColor() &&
-                cards.elementAt(prevSize - 1).getNumber() - 1 == cards.peek().getNumber()) {
+        if (cards.elementAt(prevSize - 1).getColor() == cards.peek().getColor() &&
+                cards.elementAt(prevSize - 1).getNumber() > cards.peek().getNumber()) {
             sortCount++;
         }
 
@@ -78,5 +78,19 @@ public class Batch implements Cloneable{
                 "sortPos=" + sortCount +
                 ", cards=" + cards +
                 '}';
+    }
+
+    public String outputString() {
+        if (cards.size() == 0) {
+            return "#";
+        }
+
+        StringBuilder out = new StringBuilder();
+        for (Card card :
+                cards) {
+            out.append(card.getNumber()).append(card.getColor()).append(" ");
+        }
+
+        return out.toString();
     }
 }

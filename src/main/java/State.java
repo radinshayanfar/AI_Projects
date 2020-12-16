@@ -5,6 +5,7 @@ public class State {
 
     private Batch[] batches = new Batch[BATCHES_K];
     private State parent;
+    private Transition transition;
     private int cost;
     private int f = -1;
 
@@ -35,16 +36,19 @@ public class State {
         return parent;
     }
 
+    public Transition getTransition() {
+        return transition;
+    }
+
     public boolean isGoalState() {
-        int goalBatches = 0;
         for (Batch batch :
                 batches) {
-            if (batch.isGoalBatch()) {
-                goalBatches++;
+            if (! batch.isGoalBatch()) {
+                return false;
             }
         }
 
-        return goalBatches == Batch.BATCH_N;
+        return true;
     }
 
     public int heuristic() {
@@ -88,8 +92,11 @@ public class State {
 
                 State newState = new State();
                 newState.parent = this;
+                newState.transition = new Transition(i, j);
                 newState.cost = cost + 1;
-                System.arraycopy(batches, 0, newState.batches, 0, batches.length);
+                for (int k = 0; k < batches.length; k++) {
+                    newState.batches[k] = batches[k];
+                }
                 newState.batches[i] = (Batch) batches[i].clone();
                 newState.batches[j] = (Batch) batches[j].clone();
                 newState.batches[j].addTop(newState.batches[i].removeTop());
@@ -119,5 +126,15 @@ public class State {
                 "batches=" + Arrays.toString(batches) +
                 ", cost=" + cost +
                 '}';
+    }
+
+    public StringBuilder outputString() {
+        StringBuilder out = new StringBuilder();
+        for (Batch batch :
+                batches) {
+            out.append(batch.outputString()).append("\n");
+        }
+
+        return out;
     }
 }
