@@ -10,7 +10,7 @@ public class IDSSolver implements GameSolver {
         this.initialState = initialState;
     }
 
-    private State DFS(int limit) {
+    private State DLS(int limit) {
         frontier.push(initialState);
         while (!frontier.isEmpty()) {
             State node = frontier.pop();
@@ -20,7 +20,7 @@ public class IDSSolver implements GameSolver {
                 return node;
             }
 
-            if (node.getCost() > limit) {
+            if (node.getCost() == limit) {
                 continue;
             }
 
@@ -45,7 +45,7 @@ public class IDSSolver implements GameSolver {
     public State solve(int base_limit) {
         int limit = base_limit;
         while (true) {
-            State dfsResult = DFS(limit);
+            State dfsResult = DLS(limit);
             if (dfsResult != null) {
                 return dfsResult;
             }
