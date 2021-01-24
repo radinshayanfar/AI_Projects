@@ -1,3 +1,5 @@
+package prj1;
+
 import java.util.Objects;
 
 public class Card {
@@ -33,7 +35,7 @@ public class Card {
 
     @Override
     public String toString() {
-        return "Card{" +
+        return "prj1.Card{" +
                 "color=" + color +
                 ", number=" + number +
                 '}';

@@ -1,3 +1,5 @@
+package prj1;
+
 import java.util.Arrays;
 
 public class State  implements Comparable {
@@ -122,7 +124,7 @@ public class State  implements Comparable {
 
     @Override
     public String toString() {
-        return "State{" +
+        return "prj1.State{" +
                 "batches=" + Arrays.toString(batches) +
                 ", cost=" + cost +
                 '}';

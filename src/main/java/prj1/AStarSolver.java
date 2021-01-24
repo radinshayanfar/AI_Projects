@@ -1,18 +1,19 @@
+package prj1;
+
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.PriorityQueue;
 
-public class BFSSolver implements GameSolver {
-
+public class AStarSolver implements GameSolver {
     private final State initialState;
-    private Queue<State> frontier = new LinkedList<>();
+    private PriorityQueue<State> frontier = new PriorityQueue<>();
     private HashSet<State> visited = new HashSet<>();
 
-    private int createdNodes, expandedNodes;
+    private long createdNodes, expandedNodes;
 
-    public BFSSolver(State initialState) {
+    public AStarSolver(State initialState) {
         this.initialState = initialState;
     }
+
 
     @Override
     public State solve() {

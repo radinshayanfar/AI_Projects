@@ -1,3 +1,5 @@
+package prj1;
+
 public class Transition {
     private int from, to;
 

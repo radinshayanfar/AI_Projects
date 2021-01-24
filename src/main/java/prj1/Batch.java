@@ -1,3 +1,5 @@
+package prj1;
+
 import java.util.Objects;
 import java.util.Stack;
 
@@ -74,7 +76,7 @@ public class Batch implements Cloneable{
 
     @Override
     public String toString() {
-        return "Batch{" +
+        return "prj1.Batch{" +
                 "sortPos=" + sortCount +
                 ", cards=" + cards +
                 '}';

@@ -1,3 +1,5 @@
+package prj1;
+
 public class AStarMain {
     public static void main(String[] args) {
         State initialState = IOParser.parseInput();

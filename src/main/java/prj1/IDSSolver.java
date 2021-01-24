@@ -1,3 +1,5 @@
+package prj1;
+
 import java.util.Stack;
 
 public class IDSSolver implements GameSolver {
