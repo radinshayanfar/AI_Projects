@@ -1,5 +1,6 @@
 package prj2;
 
+import java.util.HashSet;
 import java.util.Scanner;
 
 abstract public class IOParser {
@@ -15,15 +16,15 @@ abstract public class IOParser {
         sc.nextLine();
 
         String[] colors = sc.nextLine().trim().split(" ");
-        Character[] colorsDomain = new Character[State.M];
+        HashSet<Character> colorsDomain = new HashSet<>();
         for (int i = 0; i < State.M; i++) {
             ColorVariable.PRIORITIES.put(colors[i].charAt(0), i);
-            colorsDomain[i] = colors[i].charAt(0);
+            colorsDomain.add(colors[i].charAt(0));
         }
 
-        Integer[] numbersDomain = new Integer[State.N];
+        HashSet<Integer> numbersDomain = new HashSet<>();
         for (int i = 0; i < State.N; i++) {
-            numbersDomain[i] = i + 1;
+            numbersDomain.add(i + 1);
         }
 
         State state = new State(numbersDomain, colorsDomain);

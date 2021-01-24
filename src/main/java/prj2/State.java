@@ -1,6 +1,7 @@
 package prj2;
 
 import java.util.Arrays;
+import java.util.HashSet;
 
 public class State {
     public static int N, M;
@@ -26,19 +27,25 @@ public class State {
             }
         }
 
-        // 1- assignment
         if (assignment instanceof NumberVariable) {
+            // 1- assignment
             numVars[x][y] = assignment;
+
+            // 2- forward checking
+
         } else {
+            // 1- assignment
             colorVars[x][y] = assignment;
+
+            // 2- forward checking
         }
 
-        // TODO: 3- forward checking
+
 
     }
 
     // initializes clean state
-    public State(Integer[] numbersDomain, Character[] colorsDomain) {
+    public State(HashSet<Integer> numbersDomain, HashSet<Character> colorsDomain) {
         numVars = new NumberVariable[N][N];
         colorVars = new ColorVariable[N][N];
 

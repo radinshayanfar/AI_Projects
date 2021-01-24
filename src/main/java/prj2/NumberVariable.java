@@ -1,12 +1,12 @@
 package prj2;
 
-import java.util.Arrays;
+import java.util.HashSet;
 
 public class NumberVariable implements Variable {
     private final Integer assignment;
-    private final Integer[] domain;
+    private final HashSet<Integer> domain;
 
-    public NumberVariable(Integer assignment, Integer[] domain) {
+    public NumberVariable(Integer assignment, HashSet<Integer> domain) {
         this.assignment = assignment;
         this.domain = domain;
     }
@@ -16,8 +16,7 @@ public class NumberVariable implements Variable {
         return assignment;
     }
 
-    @Override
-    public Object[] getDomain() {
+    public HashSet<Integer> getDomain() {
         return domain;
     }
 
@@ -25,7 +24,7 @@ public class NumberVariable implements Variable {
     public String toString() {
         return "NumberVariable{" +
                 "assignment=" + assignment +
-                ", domain=" + Arrays.toString(domain) +
+                ", domain=" + domain +
                 '}';
     }
 }
