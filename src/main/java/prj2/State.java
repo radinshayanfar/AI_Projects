@@ -38,6 +38,7 @@ public class State {
             }
         }
     }
+
     public State(State old, Variable assignment) {
         int x = assignment.x;
         int y = assignment.y;
@@ -133,9 +134,6 @@ public class State {
                 numVars[i][y].decreaseDegree();
             }
         }
-        // if color was not assigned before -> return
-        if (colorVars[x][y].getDomain() != null)
-            return;
 
         Coordinate[] adjs = getAdjacents(x, y);
         FCBoth(x, y, adjs);
@@ -155,9 +153,6 @@ public class State {
                 colorVars[x_p][y_p].decreaseDegree();
             }
         }
-        // if number was not assigned before -> return
-        if (numVars[x][y].getDomain() != null)
-            return;
 
         FCBoth(x, y, adjs);
     }
@@ -169,34 +164,49 @@ public class State {
                 break;
 
             int x_p = adjs[i].x, y_p = adjs[i].y;
-            if (numVars[x_p][y_p].getDomain() == null && colorVars[x_p][y_p].getDomain() == null)
-                continue;
 
-            // editing adjacent color domain
-            if (numVars[x_p][y_p].getDomain() == null) {
-                base = ColorVariable.PRIORITIES_MAP.get((Character) colorVars[x][y].getAssignment());
-                dir = -1 * (int) Math.signum((Integer) numVars[x][y].getAssignment() - (Integer) numVars[x_p][y_p].getAssignment());
+            if (numVars[x][y].getDomain() != null || colorVars[x][y].getDomain() != null) { // editing self domain
+                if (numVars[x_p][y_p].getDomain() != null || colorVars[x_p][y_p].getDomain() != null)
+                    continue;
 
-                for (int j = base + dir; j < State.M && j >= 0; j += dir) {
-                    colorVars[x_p][y_p] = new ColorVariable(colorVars[x_p][y_p]);
-                    colorVars[x_p][y_p].getDomain().remove(ColorVariable.PRIORITIES_ARRAY[j]);
-                    colorVars[x_p][y_p].decreaseDegree();
-                }
+                editAdjacentDomain(x_p, y_p, x, y);
+
+            } else { //editing adjacent domain
+                if (numVars[x_p][y_p].getDomain() == null && colorVars[x_p][y_p].getDomain() == null)
+                    continue;
+
+                editAdjacentDomain(x, y, x_p, y_p);
             }
+        }
+    }
 
-            // editing adjacent number domain
-            if (colorVars[x_p][y_p].getDomain() == null) {
-                base = (Integer) numVars[x][y].getAssignment();
-                dir = -1 * (int) Math.signum(ColorVariable.PRIORITIES_MAP.get((Character) colorVars[x][y].getAssignment())
-                        - ColorVariable.PRIORITIES_MAP.get((Character) colorVars[x_p][y_p].getAssignment()));
+    private void editAdjacentDomain(int full_x, int full_y, int half_x, int half_y) {
+        int dir;
+        int base;
 
-                for (int j = base + dir; j <= State.N && j >= 1; j += dir) {
-                    numVars[x_p][y_p] = new NumberVariable(numVars[x_p][y_p]);
-                    numVars[x_p][y_p].getDomain().remove(j);
-                    numVars[x_p][y_p].decreaseDegree();
-                }
+        // editing half color domain
+        if (numVars[half_x][half_y].getDomain() == null) {
+            base = ColorVariable.PRIORITIES_MAP.get((Character) colorVars[full_x][full_y].getAssignment());
+            dir = -1 * (int) Math.signum((Integer) numVars[full_x][full_y].getAssignment() - (Integer) numVars[half_x][half_y].getAssignment());
+
+            for (int j = base + dir; j < State.M && j >= 0; j += dir) {
+                colorVars[half_x][half_y] = new ColorVariable(colorVars[half_x][half_y]);
+                colorVars[half_x][half_y].getDomain().remove(ColorVariable.PRIORITIES_ARRAY[j]);
+                colorVars[half_x][half_y].decreaseDegree();
             }
+        }
 
+        // editing half number domain
+        if (colorVars[half_x][half_y].getDomain() == null) {
+            base = (Integer) numVars[full_x][full_y].getAssignment();
+            dir = -1 * (int) Math.signum(ColorVariable.PRIORITIES_MAP.get((Character) colorVars[full_x][full_y].getAssignment())
+                    - ColorVariable.PRIORITIES_MAP.get((Character) colorVars[half_x][half_y].getAssignment()));
+
+            for (int j = base + dir; j <= State.N && j >= 1; j += dir) {
+                numVars[half_x][half_y] = new NumberVariable(numVars[half_x][half_y]);
+                numVars[half_x][half_y].getDomain().remove(j);
+                numVars[half_x][half_y].decreaseDegree();
+            }
         }
     }
 
