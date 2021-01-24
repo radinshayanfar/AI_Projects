@@ -83,7 +83,7 @@ public class State {
             return;
 
         Coordinate[] adjs = getAdjacents(x, y);
-//        FCBoth(x, y, adjs);
+        FCBoth(x, y, adjs);
     }
 
     private void FCColorAssignment(int x, int y, Character assignment) {
@@ -103,7 +103,7 @@ public class State {
         if (numVars[x][y].getDomain() != null)
             return;
 
-//        FCBoth(x, y, adjs);
+        FCBoth(x, y, adjs);
     }
 
     private void FCBoth(int x, int y, Coordinate[] adjs) {
@@ -128,15 +128,15 @@ public class State {
                 }
             }
 
-            // editing adjacent color domain
+            // editing adjacent number domain
             if (colorVars[x_p][y_p].getDomain() == null) {
                 base = (Integer) numVars[x][y].getAssignment();
-                dir = (int) Math.signum(ColorVariable.PRIORITIES_MAP.get((Character) colorVars[x][y].getAssignment())
+                dir = -1 * (int) Math.signum(ColorVariable.PRIORITIES_MAP.get((Character) colorVars[x][y].getAssignment())
                         - ColorVariable.PRIORITIES_MAP.get((Character) colorVars[x_p][y_p].getAssignment()));
 
-                for (int j = base + dir; j < State.N && j >= 0; j += dir) {
+                for (int j = base + dir; j <= State.N && j >= 1; j += dir) {
                     numVars[x_p][y_p] = new NumberVariable(numVars[x_p][y_p]);
-                    numVars[x_p][y_p].getDomain().remove(j + 1);
+                    numVars[x_p][y_p].getDomain().remove(j);
                 }
             }
 
