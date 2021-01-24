@@ -18,7 +18,8 @@ abstract public class IOParser {
         String[] colors = sc.nextLine().trim().split(" ");
         HashSet<Character> colorsDomain = new HashSet<>();
         for (int i = 0; i < State.M; i++) {
-            ColorVariable.PRIORITIES.put(colors[i].charAt(0), i);
+            ColorVariable.PRIORITIES_MAP.put(colors[i].charAt(0), i);
+            ColorVariable.PRIORITIES_ARRAY[i] = colors[i].charAt(0);
             colorsDomain.add(colors[i].charAt(0));
         }
 
@@ -36,9 +37,11 @@ abstract public class IOParser {
                     Integer val = Integer.parseInt(cells[j].substring(0, cells[j].length() - 1));
                     state = new State(state, new NumberVariable(val, null), i, j);
                 }
+                System.out.println(state);
                 if (cells[j].charAt(cells[j].length() - 1) != '#') {
                     state = new State(state, new ColorVariable(cells[j].charAt(cells[j].length() - 1), null), i, j);
                 }
+                System.out.println(state);
             }
         }
 

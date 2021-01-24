@@ -11,6 +11,11 @@ public class NumberVariable implements Variable {
         this.domain = domain;
     }
 
+    public NumberVariable(NumberVariable nv) {
+        this.assignment = nv.assignment;
+        this.domain = new HashSet<>(nv.getDomain());
+    }
+
     @Override
     public Object getAssignment() {
         return assignment;
@@ -18,6 +23,11 @@ public class NumberVariable implements Variable {
 
     public HashSet<Integer> getDomain() {
         return domain;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
     @Override

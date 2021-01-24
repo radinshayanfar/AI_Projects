@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class ColorVariable implements Variable {
-    public static final HashMap<Character, Integer> PRIORITIES = new HashMap<>();
+    public static final HashMap<Character, Integer> PRIORITIES_MAP = new HashMap<>();
+    public static final Character[] PRIORITIES_ARRAY = new Character[State.M];
 
     private final Character assignment;
     private final HashSet<Character> domain;
@@ -13,6 +14,11 @@ public class ColorVariable implements Variable {
     public ColorVariable(Character assignment, HashSet<Character> domain) {
         this.assignment = assignment;
         this.domain = domain;
+    }
+
+    public ColorVariable(ColorVariable cv) {
+        this.assignment = cv.assignment;
+        this.domain = new HashSet<>(cv.getDomain());
     }
 
     @Override
