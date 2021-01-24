@@ -120,7 +120,7 @@ public class State {
             if (numVars[x_p][y_p].getDomain() == null) {
                 base = ColorVariable.PRIORITIES_MAP.get((Character) colorVars[x][y].getAssignment());
                 System.out.println(numVars[x][y].getAssignment() );
-                dir = (int) Math.signum((Integer) numVars[x][y].getAssignment() - (Integer) numVars[x_p][y_p].getAssignment());
+                dir = -1 * (int) Math.signum((Integer) numVars[x][y].getAssignment() - (Integer) numVars[x_p][y_p].getAssignment());
 
                 for (int j = base + dir; j < State.M && j >= 0; j += dir) {
                     colorVars[x_p][y_p] = new ColorVariable(colorVars[x_p][y_p]);
