@@ -1,19 +1,20 @@
 package prj2;
 
-import prj1.Batch;
-
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 public class State {
     public static int N, M;
+    public static int MAX_DEGREE;
 
     private final NumberVariable[][] numVars;
+
     private final ColorVariable[][] colorVars;
     private final Set<Coordinate> unassigned;
-
     // initializes clean state
+
     public State(HashSet<Integer> numbersDomain, HashSet<Character> colorsDomain) {
         numVars = new NumberVariable[N][N];
         colorVars = new ColorVariable[N][N];
@@ -21,14 +22,22 @@ public class State {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                numVars[i][j] = new NumberVariable(i, j, null, numbersDomain);
-                colorVars[i][j] = new ColorVariable(i, j, null, colorsDomain);
+                Coordinate[] adjs = getAdjacents(i, j);
+                int adjCount = 4;
+                for (int k = 3; k >= 0; k--) {
+                    if (adjs[k] == null)
+                        adjCount--;
+                    else
+                        break;
+                }
+
+                numVars[i][j] = new NumberVariable(i, j, 2 * N - 2 + adjCount, null, numbersDomain);
+                colorVars[i][j] = new ColorVariable(i, j, 2 * adjCount, null, colorsDomain);
                 unassigned.add(new Coordinate(i, j, VariableType.Number));
                 unassigned.add(new Coordinate(i, j, VariableType.Color));
             }
         }
     }
-
     public State(State old, Variable assignment) {
         int x = assignment.x;
         int y = assignment.y;
@@ -47,14 +56,18 @@ public class State {
 
         if (assignment instanceof NumberVariable) {
             // 1- assignment
+            int degree = numVars[x][y].getDegree();
             numVars[x][y] = (NumberVariable) assignment;
+            numVars[x][y].setDegree(degree);
             unassigned.remove(new Coordinate(x, y, VariableType.Number));
 
             // 2- forward checking
             FCNumberAssignment(x, y, (Integer) assignment.getAssignment());
         } else {
             // 1- assignment
+            int degree = colorVars[x][y].getDegree();
             colorVars[x][y] = (ColorVariable) assignment;
+            colorVars[x][y].setDegree(degree);
             unassigned.remove(new Coordinate(x, y, VariableType.Color));
 
             // 2- forward checking
@@ -75,8 +88,7 @@ public class State {
             unassignedArray[index++] = (c.type == VariableType.Number) ? numVars[c.x][c.y] : colorVars[c.x][c.y];
         }
 
-        // TODO: implementing heuristics
-        return unassignedArray[0];
+        return Collections.max(Arrays.asList(unassignedArray));
     }
 
     public State[] nextStates() {
@@ -91,14 +103,14 @@ public class State {
             out = new State[domain.size()];
             for (Integer a :
                     domain) {
-                out[index++] = new State(this, new NumberVariable(variable.x, variable.y, a, null));
+                out[index++] = new State(this, new NumberVariable(variable.x, variable.y, variable.getDegree(), a, null));
             }
         } else {
             HashSet<Character> domain = ((ColorVariable) variable).getDomain();
             out = new State[domain.size()];
             for (Character a :
                     domain) {
-                out[index++] = new State(this, new ColorVariable(variable.x, variable.y, a, null));
+                out[index++] = new State(this, new ColorVariable(variable.x, variable.y, variable.getDegree(), a, null));
             }
         }
 
@@ -111,12 +123,14 @@ public class State {
             if (i != y && numVars[x][i].getDomain() != null) {
                 numVars[x][i] = new NumberVariable(numVars[x][i]);
                 numVars[x][i].getDomain().remove(assignment);
+                numVars[x][i].decreaseDegree();
             }
 
             // checking column
             if (i != x && numVars[i][y].getDomain() != null) {
                 numVars[i][y] = new NumberVariable(numVars[i][y]);
                 numVars[i][y].getDomain().remove(assignment);
+                numVars[i][y].decreaseDegree();
             }
         }
         // if color was not assigned before -> return
@@ -138,6 +152,7 @@ public class State {
                     && colorVars[x_p][y_p].getDomain().contains(assignment)) {
                 colorVars[x_p][y_p] = new ColorVariable(colorVars[x_p][y_p]);
                 colorVars[x_p][y_p].getDomain().remove(assignment);
+                colorVars[x_p][y_p].decreaseDegree();
             }
         }
         // if number was not assigned before -> return
@@ -165,6 +180,7 @@ public class State {
                 for (int j = base + dir; j < State.M && j >= 0; j += dir) {
                     colorVars[x_p][y_p] = new ColorVariable(colorVars[x_p][y_p]);
                     colorVars[x_p][y_p].getDomain().remove(ColorVariable.PRIORITIES_ARRAY[j]);
+                    colorVars[x_p][y_p].decreaseDegree();
                 }
             }
 
@@ -177,6 +193,7 @@ public class State {
                 for (int j = base + dir; j <= State.N && j >= 1; j += dir) {
                     numVars[x_p][y_p] = new NumberVariable(numVars[x_p][y_p]);
                     numVars[x_p][y_p].getDomain().remove(j);
+                    numVars[x_p][y_p].decreaseDegree();
                 }
             }
 
@@ -226,5 +243,9 @@ public class State {
                 ", colorVars=" + Arrays.deepToString(colorVars) +
 //                ", unassigned=" + unassigned +
                 '}';
+    }
+
+    public static void calcMacDegree() {
+        MAX_DEGREE = 2 * N + 3;
     }
 }

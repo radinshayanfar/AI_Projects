@@ -6,14 +6,14 @@ public class NumberVariable extends Variable {
     private final Integer assignment;
     private final HashSet<Integer> domain;
 
-    public NumberVariable(int x, int y, Integer assignment, HashSet<Integer> domain) {
-        super(x, y);
+    public NumberVariable(int x, int y, int degree, Integer assignment, HashSet<Integer> domain) {
+        super(x, y, degree);
         this.assignment = assignment;
         this.domain = domain;
     }
 
     public NumberVariable(NumberVariable nv) {
-        super(nv.x, nv.y);
+        super(nv.x, nv.y, nv.getDegree());
         this.assignment = nv.assignment;
         this.domain = new HashSet<>(nv.getDomain());
     }
@@ -28,8 +28,14 @@ public class NumberVariable extends Variable {
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public int compareTo(Object o) {
+        Variable other = (Variable) o;
+        int otherDomainSize = (o instanceof NumberVariable) ? ((NumberVariable) other).getDomain().size() : ((ColorVariable) other).getDomain().size();
+
+        int thisHeuristic = -1 * State.MAX_DEGREE * this.getDomain().size() + this.getDegree();
+        int otherHeuristic = -1 * State.MAX_DEGREE * otherDomainSize+ other.getDegree();
+
+        return thisHeuristic - otherHeuristic;
     }
 
     @Override

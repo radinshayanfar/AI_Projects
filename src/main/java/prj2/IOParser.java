@@ -13,6 +13,7 @@ abstract public class IOParser {
     public static State parseInput() {
         State.M = sc.nextInt();
         State.N = sc.nextInt();
+        State.calcMacDegree();
         sc.nextLine();
 
         String[] colors = sc.nextLine().trim().split(" ");
@@ -35,10 +36,10 @@ abstract public class IOParser {
             for (int j = 0; j < State.N; j++) {
                 if (cells[j].charAt(0) != '*') {
                     Integer val = Integer.parseInt(cells[j].substring(0, cells[j].length() - 1));
-                    state = new State(state, new NumberVariable(i, j, val, null));
+                    state = new State(state, new NumberVariable(i, j, -1, val, null));
                 }
                 if (cells[j].charAt(cells[j].length() - 1) != '#') {
-                    state = new State(state, new ColorVariable(i, j, cells[j].charAt(cells[j].length() - 1), null));
+                    state = new State(state, new ColorVariable(i, j, -1, cells[j].charAt(cells[j].length() - 1), null));
                 }
             }
         }

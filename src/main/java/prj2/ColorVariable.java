@@ -11,14 +11,14 @@ public class ColorVariable extends Variable {
     private final Character assignment;
     private final HashSet<Character> domain;
 
-    public ColorVariable(int x, int y, Character assignment, HashSet<Character> domain) {
-        super(x, y);
+    public ColorVariable(int x, int y, int degree, Character assignment, HashSet<Character> domain) {
+        super(x, y, degree);
         this.assignment = assignment;
         this.domain = domain;
     }
 
     public ColorVariable(ColorVariable cv) {
-        super(cv.x, cv.y);
+        super(cv.x, cv.y, cv.getDegree());
         this.assignment = cv.assignment;
         this.domain = new HashSet<>(cv.getDomain());
     }
@@ -30,6 +30,17 @@ public class ColorVariable extends Variable {
 
     public HashSet<Character> getDomain() {
         return domain;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Variable other = (Variable) o;
+        int otherDomainSize = (o instanceof NumberVariable) ? ((NumberVariable) other).getDomain().size() : ((ColorVariable) other).getDomain().size();
+
+        int thisHeuristic = -1 * State.MAX_DEGREE * this.getDomain().size() + this.getDegree();
+        int otherHeuristic = -1 * State.MAX_DEGREE * otherDomainSize+ other.getDegree();
+
+        return thisHeuristic - otherHeuristic;
     }
 
     @Override
