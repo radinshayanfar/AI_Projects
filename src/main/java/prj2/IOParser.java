@@ -35,13 +35,11 @@ abstract public class IOParser {
             for (int j = 0; j < State.N; j++) {
                 if (cells[j].charAt(0) != '*') {
                     Integer val = Integer.parseInt(cells[j].substring(0, cells[j].length() - 1));
-                    state = new State(state, new NumberVariable(val, null), i, j);
+                    state = new State(state, new NumberVariable(i, j, val, null));
                 }
-                System.out.println(state);
                 if (cells[j].charAt(cells[j].length() - 1) != '#') {
-                    state = new State(state, new ColorVariable(cells[j].charAt(cells[j].length() - 1), null), i, j);
+                    state = new State(state, new ColorVariable(i, j, cells[j].charAt(cells[j].length() - 1), null));
                 }
-                System.out.println(state);
             }
         }
 

@@ -1,7 +1,12 @@
 package prj2;
 
-import java.util.HashSet;
+public abstract class Variable {
+    public final int x, y;
 
-public interface Variable {
-    Object getAssignment();
+    public Variable(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public abstract Object getAssignment();
 }

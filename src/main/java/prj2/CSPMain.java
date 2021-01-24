@@ -7,8 +7,10 @@ public class CSPMain {
         System.out.println(initialState);
         System.out.println("--------------");
 
-//        GameSolver gameSolver = new AStarSolver(initialState);
-//        State solved = gameSolver.solve();
+        CSPSolver cspSolver = new CSPSolver(initialState);
+        State solved = cspSolver.solve();
 //        IOParser.printOutput(solved, gameSolver);
+        System.out.println("Solved state:");
+        System.out.println(solved.outputString());
     }
 }

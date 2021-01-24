@@ -1,24 +1,42 @@
 package prj2;
 
+import prj1.Batch;
+
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 public class State {
     public static int N, M;
 
-    private NumberVariable[][] numVars;
-    private ColorVariable[][] colorVars;
+    private final NumberVariable[][] numVars;
+    private final ColorVariable[][] colorVars;
+    private final Set<Coordinate> unassigned;
 
-    public State(NumberVariable[][] numVars, ColorVariable[][] colorVars) {
-        this.numVars = numVars;
-        this.colorVars = colorVars;
+    // initializes clean state
+    public State(HashSet<Integer> numbersDomain, HashSet<Character> colorsDomain) {
+        numVars = new NumberVariable[N][N];
+        colorVars = new ColorVariable[N][N];
+        unassigned = new HashSet<>();
+
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                numVars[i][j] = new NumberVariable(i, j, null, numbersDomain);
+                colorVars[i][j] = new ColorVariable(i, j, null, colorsDomain);
+                unassigned.add(new Coordinate(i, j, VariableType.Number));
+                unassigned.add(new Coordinate(i, j, VariableType.Color));
+            }
+        }
     }
 
-    public State(State old, Variable assignment, int x, int y) {
+    public State(State old, Variable assignment) {
+        int x = assignment.x;
+        int y = assignment.y;
 
         // 0- copy vars
         numVars = new NumberVariable[N][N];
         colorVars = new ColorVariable[N][N];
+        unassigned = new HashSet<>(old.unassigned);
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
@@ -30,12 +48,14 @@ public class State {
         if (assignment instanceof NumberVariable) {
             // 1- assignment
             numVars[x][y] = (NumberVariable) assignment;
+            unassigned.remove(new Coordinate(x, y, VariableType.Number));
 
             // 2- forward checking
             FCNumberAssignment(x, y, (Integer) assignment.getAssignment());
         } else {
             // 1- assignment
             colorVars[x][y] = (ColorVariable) assignment;
+            unassigned.remove(new Coordinate(x, y, VariableType.Color));
 
             // 2- forward checking
             FCColorAssignment(x, y, (Character) assignment.getAssignment());
@@ -43,25 +63,46 @@ public class State {
 
     }
 
-    // initializes clean state
-    public State(HashSet<Integer> numbersDomain, HashSet<Character> colorsDomain) {
-        numVars = new NumberVariable[N][N];
-        colorVars = new ColorVariable[N][N];
+    private Variable selectVariable() {
+        int unassignedCount = unassigned.size();
+        if (unassignedCount == 0)
+            return null;
 
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                numVars[i][j] = new NumberVariable(null, numbersDomain);
-                colorVars[i][j] = new ColorVariable(null, colorsDomain);
-            }
+        Variable[] unassignedArray = new Variable[unassignedCount];
+        int index = 0;
+        for (Coordinate c :
+                unassigned) {
+            unassignedArray[index++] = (c.type == VariableType.Number) ? numVars[c.x][c.y] : colorVars[c.x][c.y];
         }
+
+        // TODO: implementing heuristics
+        return unassignedArray[0];
     }
 
-    @Override
-    public String toString() {
-        return "State{" +
-                "numVars=" + Arrays.deepToString(numVars) +
-                ", colorVars=" + Arrays.deepToString(colorVars) +
-                '}';
+    public State[] nextStates() {
+        State[] out;
+        Variable variable = selectVariable();
+        if (variable == null)
+            return null;
+
+        int index = 0;
+        if (variable instanceof NumberVariable) {
+            HashSet<Integer> domain = ((NumberVariable) variable).getDomain();
+            out = new State[domain.size()];
+            for (Integer a :
+                    domain) {
+                out[index++] = new State(this, new NumberVariable(variable.x, variable.y, a, null));
+            }
+        } else {
+            HashSet<Character> domain = ((ColorVariable) variable).getDomain();
+            out = new State[domain.size()];
+            for (Character a :
+                    domain) {
+                out[index++] = new State(this, new ColorVariable(variable.x, variable.y, a, null));
+            }
+        }
+
+        return out;
     }
 
     private void FCNumberAssignment(int x, int y, Integer assignment) {
@@ -94,7 +135,7 @@ public class State {
 
             int x_p = adjs[i].x, y_p = adjs[i].y;
             if (colorVars[x_p][y_p].getDomain() != null
-                    && colorVars[x_p][y_p].getDomain().contains(assignment))  {
+                    && colorVars[x_p][y_p].getDomain().contains(assignment)) {
                 colorVars[x_p][y_p] = new ColorVariable(colorVars[x_p][y_p]);
                 colorVars[x_p][y_p].getDomain().remove(assignment);
             }
@@ -119,7 +160,6 @@ public class State {
             // editing adjacent color domain
             if (numVars[x_p][y_p].getDomain() == null) {
                 base = ColorVariable.PRIORITIES_MAP.get((Character) colorVars[x][y].getAssignment());
-                System.out.println(numVars[x][y].getAssignment() );
                 dir = -1 * (int) Math.signum((Integer) numVars[x][y].getAssignment() - (Integer) numVars[x_p][y_p].getAssignment());
 
                 for (int j = base + dir; j < State.M && j >= 0; j += dir) {
@@ -161,5 +201,30 @@ public class State {
             out[index] = new Coordinate(x, y + 1);
 
         return out;
+    }
+
+    public boolean isGoalState() {
+        return unassigned.size() == 0;
+    }
+
+    public String outputString() {
+        StringBuilder out = new StringBuilder();
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                out.append(numVars[i][j].getAssignment()).append(colorVars[i][j].getAssignment()).append(' ');
+            }
+            out.append('\n');
+        }
+
+        return out.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "State{" +
+                "numVars=" + Arrays.deepToString(numVars) +
+                ", colorVars=" + Arrays.deepToString(colorVars) +
+//                ", unassigned=" + unassigned +
+                '}';
     }
 }
