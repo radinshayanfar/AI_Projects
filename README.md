@@ -12,17 +12,19 @@ AUT Principles and Applications of Artificial Intelligence course (Fall 2020) pr
 
 
 
+------
+
 ### 1. [Simple Card Game! Search problem using BFS, IDS, and A* algorithms](https://github.com/radinshayanfar/AI_Projects/tree/master/PRJ1_PRJ2/src/main/java/prj1)
 
 In this exciting game, there are multiple cards with different numbers and colors. We have `M` colors for cards, and for each color, there are `N` cards numbered from 1 to `N`. The cards could be placed in any of `K` available columns, and all of them could be seen at any time. **The goal is to order the columns so that all cards in every column should have the same color and ordered descending**. Also, there is a rule for moving the cards. You can only pick a card from the top of each column, and it should be placed on a card with a greater number.
 
 For instance, an initial state can be as follows:
 
-![initial state](./images/prj1_initial.svg)
+![cards initial state](./images/prj1_initial.svg)
 
 In the above example, a possible move is to pick the yellow-2 card from the second column and put it on the fourth column. So the game state would be:
 
-![example state](./images/prj1_example.svg)
+![cards example state](./images/prj1_example.svg)
 
 Other possible destinations for yellow-2 are the first column and fifth (empty) column. But notice that it cannot be moved to the third column (as the card underneath it will not be greater than that).
 
@@ -91,7 +93,7 @@ Actions:
 
 which is illustrated in the image below:
 
-![final state](./images/prj1_final.svg)
+![cards final state](./images/prj1_final.svg)
 
 
 
@@ -100,3 +102,74 @@ which is illustrated in the image below:
 Read the full description (in Persian) [here](https://github.com/radinshayanfar/AI_Projects/blob/master/instructions/AI_P1.pdf).
 
 The report for this project (also in Persian) is [here](https://github.com/radinshayanfar/AI_Projects/blob/master/report/prj1/report.pdf).
+
+
+
+------
+
+### 2. [Colorful Sudoku: CSP problem using Backtrack algorithm with Forward Checking and MRV and Degree heuristics](https://github.com/radinshayanfar/AI_Projects/tree/master/PRJ1_PRJ2/src/main/java/prj2)
+
+Here we have an advanced n-Sudoku game: n-Sudoku with colors! In this game, each cell has color in addition to the numbers we had in the classic n-Sudoku game. The colors also have priorities over each other. These priorities are inputted into the program.
+
+So the rules are:
+
+1. Each cell should both a number and a color assigned to it.
+2. Each number should be unique in its row and column.
+3. In every two adjacent cells, the following statement should be the case: "If a cell has a greater number than its adjacent, then its color should have more priority over that adjacent and vice versa."
+
+For instance, consider the below color priorities and initial state:
+
+<img src="./images/prj2_initial.svg" alt="sudoku initial state" style="max-width: 50%;" />
+
+<p align="center"> <b> Red > Green > Blue > Yellow > Purple </b> </p>
+
+
+
+The project tries to solve the problem (formulated as a CSP problem) using Backtrack algorithm with Forward Checking and MRV and Degree heuristics.
+
+#### Input
+
+The first line contains `M N`, number of colors and dimension of table, respectively.
+
+Each next `N` lines inputs each row's cells' numbers and colors. Cells are separated by space and characterized by a number (defining cell number) followed by a character (defining cell number). `#` determines an empty column. We use `*` to denote a cell with no number and `#` to denote a cell with no color.
+
+**Sample input**
+
+The above example initial state is as follows:
+
+```
+5 3
+r g b y p
+1# *b *#
+*# 3r *#
+*g 1# *#
+```
+
+#### Output
+
+The solved game (if possible) will be printed out.
+
+A possible answer to the above input using A* algorithm is:
+
+```
+1y 2b 3g
+2b 3r 1y
+3g 1y 2g
+```
+
+which is illustrated in the image below:
+
+<img src="./images/prj2_full.svg" alt="sudoku full state" style="max-width: 50%;" />
+
+
+
+#### Full description
+
+Read the full description (in Persian) [here](https://github.com/radinshayanfar/AI_Projects/blob/master/instructions/AI_P2.pdf).
+
+The report for this project (also in Persian) is [here](https://github.com/radinshayanfar/AI_Projects/blob/master/report/prj2/report.pdf).
+
+
+
+------
+
