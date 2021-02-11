@@ -7,7 +7,7 @@ AUT Principles and Applications of Artificial Intelligence course (Fall 2020) pr
 ## Table of Contents
 
 1. [Simple Card Game! Search problem using BFS, IDS, and A* algorithms](#1-simple-card-game-search-problem-using-bfs-ids-and-a-algorithms)
-2. Colorful Sudoku: CSP problem using Backtrack algorithm with Forward Checking and MRV and Degree heuristics
+2. [Colorful Sudoku: CSP problem using Backtrack algorithm with Forward Checking and MRV and Degree heuristics](#2-colorful-sudoku-csp-problem-using-backtrack-algorithm-with-forward-checking-and-mrv-and-degree-heuristics)
 3. Poet Recognition: NLP problem using Unigram, Bigram, and Backoff models
 
 
@@ -119,9 +119,9 @@ So the rules are:
 
 For instance, consider the below color priorities and initial state:
 
-<img src="./images/prj2_initial.svg" alt="sudoku initial state" style="max-width: 50%;" />
+<img src="./images/prj2_initial.svg" alt="sudoku initial state" width="50%" />
 
-<p align="center"> <b> Red > Green > Blue > Yellow > Purple </b> </p>
+**Red > Green > Blue > Yellow > Purple**
 
 
 
@@ -159,7 +159,7 @@ A possible answer to the above input using A* algorithm is:
 
 which is illustrated in the image below:
 
-<img src="./images/prj2_full.svg" alt="sudoku full state" style="max-width: 50%;" />
+<img src="./images/prj2_full.svg" alt="sudoku full state" width="50%" />
 
 
 
