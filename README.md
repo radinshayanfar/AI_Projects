@@ -8,7 +8,7 @@ AUT Principles and Applications of Artificial Intelligence course (Fall 2020) pr
 
 1. [Simple Card Game! Search problem using BFS, IDS, and A* algorithms](#1-simple-card-game-search-problem-using-bfs-ids-and-a-algorithms)
 2. [Colorful Sudoku: CSP problem using Backtrack algorithm with Forward Checking and MRV and Degree heuristics](#2-colorful-sudoku-csp-problem-using-backtrack-algorithm-with-forward-checking-and-mrv-and-degree-heuristics)
-3. Poet Recognition: NLP problem using Unigram, Bigram, and Backoff models
+3. [Poet Recognition: NLP problem using Unigram, Bigram, and Backoff models](#3-poet-recognition-nlp-problem-using-unigram-bigram-and-backoff-models)
 
 
 
