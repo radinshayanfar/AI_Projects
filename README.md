@@ -173,3 +173,13 @@ The report for this project (also in Persian) is [here](https://github.com/radin
 
 ------
 
+### 3. [Poet Recognition: NLP problem using Unigram, Bigram, and Backoff models](https://github.com/radinshayanfar/AI_Projects/blob/master/prj3/prj3.ipynb)
+
+In this NLP problem, given a line from Ferdowsi, Hafez, or Molana (three famous Iranian poets), the aim was to predict that line's author. To achieve this goal, a Unigram and a Bigram model trained on a train set with over 24 thousand lines of poems written by these three poets. Also, the following Backoff model was used for smoothing:
+
+<img src="http://www.sciweavers.org/download/Tex2Img_1613080437.png" width="475" height="98" >
+
+
+#### Full description
+
+Read the full description (in Persian) [here](https://github.com/radinshayanfar/AI_Projects/blob/master/instructions/AI_P3.pdf).
