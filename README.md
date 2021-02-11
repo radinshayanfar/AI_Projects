@@ -115,7 +115,7 @@ So the rules are:
 
 1. Each cell should both a number and a color assigned to it.
 2. Each number should be unique in its row and column.
-3. In every two adjacent cells, the following statement should be the case: "If a cell has a greater number than its adjacent, then its color should have more priority over that adjacent and vice versa."
+3. For every two adjacent cells, the following statement should be the case: "If a cell has a greater number than its adjacent, then its color should have more priority over that adjacent and vice versa."
 
 For instance, consider the below color priorities and initial state:
 
