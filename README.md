@@ -16,7 +16,7 @@ AUT Principles and Applications of Artificial Intelligence course (Fall 2020) pr
 
 ### 1. [Simple Card Game! Search problem using BFS, IDS, and A* algorithms](https://github.com/radinshayanfar/AI_Projects/tree/master/PRJ1_PRJ2/src/main/java/prj1)
 
-In this exciting game, there are multiple cards with different numbers and colors. We have `M` colors for cards, and for each color, there are `N` cards numbered from 1 to `N`. The cards could be placed in any of `K` available columns, and all of them could be seen at any time. **The goal is to order the columns so that all cards in every column should have the same color and ordered descending**. Also, there is a rule for moving the cards. You can only pick a card from the top of each column, and it should be placed on a card with a greater number.
+In this exciting game, there are multiple cards with different numbers and colors. We have `M` colors for cards, and for each color, there are `N` cards numbered from 1 to `N`. The cards could be placed in any of `K` available columns, and all of them are visible at any time. **The goal is to arrange the cards so that all cards in every column have the same color and are sorted in descending order**. Also, there is a rule for moving the cards. You can only pick a card from the top of each column, and it should be placed on a card with a greater number.
 
 For instance, an initial state can be as follows:
 
