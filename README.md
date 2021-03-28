@@ -177,7 +177,7 @@ The report for this project (also in Persian) is [here](https://github.com/radin
 
 In this NLP problem, given a line from Ferdowsi, Hafez, or Molana (three famous Iranian poets), the aim was to predict that line's author. To achieve this goal, a Unigram and a Bigram model trained on a train set with over 24 thousand lines of poems written by these three poets. Also, the following Backoff model was used for smoothing:
 
-<img src="https://latex.codecogs.com/svg.latex?\\\hat{P}(c_i|c_{i-1})=\lambda_3P(c_i|c_{i-1})+\lambda_2P(c_i)+\lambda_1\epsilon%20\\%20\\\lambda_1%20+%20\lambda_2%20+%20\lambda_3%20=%201%20\\%20\\0%20%3C%20\epsilon%20%3C%201" width="475" height="98" >
+<img src="https://latex.codecogs.com/svg.latex?\\\hat{P}(c_i|c_{i-1})=\lambda_3P(c_i|c_{i-1})+\lambda_2P(c_i)+\lambda_1\epsilon%20\\%20\\\lambda_1%20+%20\lambda_2%20+%20\lambda_3%20=%201%20\\%20\\0%20%3C%20\epsilon%20%3C%201">
 
 
 #### Full description
